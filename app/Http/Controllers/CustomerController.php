@@ -19,7 +19,7 @@ class CustomerController extends Controller
             'name' => 'required',
             'surname' => 'required',
             'email' => 'required|email|unique:customers',
-            'password' => 'required|min:6',
+            'password' => 'required|min:6|confirmed',
         ]);
 
         $customer = new Customer();
@@ -62,9 +62,19 @@ class CustomerController extends Controller
 
         $token = $customer->createToken('myapptoken')->plainTextToken;
 
+        // Get admin info
+        $customerInfo = new \stdClass();
+        $customerInfo->loginLogs = DB::table('customer_login_logs')->where('customers_id', $customer->id)->get();
+        $customerInfo->roles = DB::table('customer_users_roles')
+            ->join('customer_roles', 'customer_users_roles.customer_roles_id', '=', 'customer_roles.id')
+            ->select('customer_roles.id', 'customer_roles.title')
+            ->where('customer_users_roles.customers_id', $customer->id)
+            ->get();
+
         $response = [
             'customer' => $customer,
-            'token' => $token
+            'token' => $token,
+            'customerInfo' => $customerInfo
         ];
 
         return response($response, 201);
@@ -133,5 +143,17 @@ class CustomerController extends Controller
     public function searchCustomerByName($name)
     {
         return Customer::where('name', 'like', '%' . $name . '%')->get();
+    }
+
+    /**
+     * Customer logout and token destroy 
+     */
+    public function logoutCustomer(Request $request)
+    {
+        $request->user()->tokens()->delete();
+
+        return response()->json([
+            'message' => 'Logout successful'
+        ], 200);
     }
 }

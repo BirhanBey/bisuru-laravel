@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\StoreImageRequest;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -21,9 +22,9 @@ class AdminController extends Controller
             'name' => 'required',
             'surname' => 'required',
             'email' => 'required|email|unique:admins',
-            'password' => 'required|min:6',
+            'password' => 'required|min:6|confirmed',
         ]);
-    
+
         $admin = new Admin();
         $admin->name = $request->input('name');
         $admin->surname = $request->input('surname');
@@ -35,7 +36,7 @@ class AdminController extends Controller
 
 
         $admin->save();
-    
+
         return response()->json([
             'message' => 'Admin created successfully',
             'admin' => $admin
@@ -62,11 +63,22 @@ class AdminController extends Controller
             ], 401);
         }
 
-        $token = $admin->createToken('myapptoken')->plainTextToken;
+        $token = $admin->createToken('bisuru')->plainTextToken;
+
+        // Get admin info
+        $adminInfo = new \stdClass();
+        $adminInfo->loginLogs = DB::table('admin_login_logs')->where('admins_id', $admin->id)->get();
+        $adminInfo->roles = DB::table('admin_users_roles')
+            ->join('admin_roles', 'admin_users_roles.admin_roles_id', '=', 'admin_roles.id')
+            ->select('admin_roles.id', 'admin_roles.title')
+            ->where('admin_users_roles.admins_id', $admin->id)
+            ->get();
+
 
         $response = [
             'admin' => $admin,
-            'token' => $token
+            'token' => $token,
+            'adminInfo' => $adminInfo
         ];
 
         return response($response, 201);
@@ -107,8 +119,8 @@ class AdminController extends Controller
      */
     public function updateAdmin(Request $request, string $id)
     {
-            $admin = Admin::findOrFail($id);
-            $admin->update($request->all());
+        $admin = Admin::findOrFail($id);
+        $admin->update($request->all());
 
         return response()->json([
             'message' => 'Admin updated successfully',
@@ -136,4 +148,17 @@ class AdminController extends Controller
     {
         return Admin::where('name', 'like', '%' . $name . '%')->get();
     }
+
+    /**
+     * Admin logout and token destroy 
+     */
+    public function logout(Request $request)
+    {
+        $request->user()->tokens()->delete();
+
+        return response()->json([
+            'message' => 'Logout successful'
+        ], 200);
+    }
+
 }

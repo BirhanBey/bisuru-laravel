@@ -36,6 +36,7 @@ Route::get('/admins/{id}', [AdminController::class, 'getAdmin']);
 // Search the specified Admin from storage by name.
 Route::get('/admins/search/{name}', [AdminController::class, 'searchAdminByName']);
 
+
 // protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
     // Update the specified Admin in storage.
@@ -43,7 +44,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Remove the specified Admin from storage.
     Route::delete('/admins/{id}', [AdminController::class, 'deleteAdmin'])->middleware('auth', 'check_user_ownership');
 
-        //AdminRole's Routes
+    //AdminRole's Routes
 
     // Display a listing of the AdminRoles.
     Route::get('/adminroles', [AdminRoleController::class, 'getAllAdminRoles']);
@@ -57,8 +58,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::delete('/adminroles/{id}', [AdminRoleController::class, 'deleteAdminRole'])->middleware('auth', 'check_user_ownership');
     // Search the specified AdminRole from storage by name.
     Route::get('/adminroles/search/{name}', [AdminRoleController::class, 'searchAdminRoleByName']);
+    // Admin logout and token destroy
+    Route::post('/logout', [AdminController::class, 'logout']);
 
-        //AdminUserRole's Routes
+    //AdminUserRole's Routes
 
     // Display a listing of the AdminUserRoles.
     Route::get('/adminuserroles', [AdminUserRoleController::class, 'getAllAdminUserRoles']);
@@ -69,7 +72,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Remove the specified AdminUserRole from storage.
     Route::delete('/adminuserroles/{id}', [AdminUserRoleController::class, 'deleteAdminUserRole']);
 
-        //Customers's Routes
+    //Customers's Routes
 
     // Post a newly created Customer in storage.
     Route::post('/registercustomer', [CustomerController::class, 'createCustomer']);
@@ -83,8 +86,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::delete('/customers/{id}', [CustomerController::class, 'deleteCustomer']);
     // Search the specified Customer from storage by name.
     Route::get('/customers/search/{name}', [CustomerController::class, 'searchCustomerByName']);
+    // Admin logout and token destroy
+    Route::post('/logoutcustomer', [CustomerController::class, 'logoutCustomer']);
 
-        //CustomerRole's Routes
+
+    //CustomerRole's Routes
 
     // Display a listing of the CustomerRoles.
     Route::get('/customerroles', [CustomerRoleController::class, 'getAllCustomerRoles']);
@@ -99,7 +105,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Search the specified CustomerRole from storage by name.
     Route::get('/customerroles/search/{name}', [CustomerRoleController::class, 'searchCustomerRoleByName']);
 
-        //CustomerUserRole's Routes
+
+    //CustomerUserRole's Routes
 
     // Display a listing of the CustomerUserRole.
     Route::get('/customeruserroles', [CustomerUserRoleController::class, 'getAllCustomerUserRoles']);
@@ -109,7 +116,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::patch('/customeruserroles/{id}', [CustomerUserRoleController::class, 'updateCustomerUserRole']);
     // Remove the specified CustomerUserRole from storage.
     Route::delete('/customeruserroles/{id}', [CustomerUserRoleController::class, 'deleteCustomerUserRole']);
-
 });
 
 
