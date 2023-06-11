@@ -3,8 +3,8 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminRoleController;
 use App\Http\Controllers\AdminUserRoleController;
-use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\CustomerRoleController;
+use App\Http\Controllers\CoopController;
+use App\Http\Controllers\CoopStaffController;
 use App\Http\Controllers\CustomerUserRoleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,8 +27,6 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', [AdminController::class, 'createAdmin']);
 // Admin login and token creation
 Route::post('/login', [AdminController::class, 'adminLogin']);
-// Customer login and token creation
-Route::post('/logincustomer', [CustomerController::class, 'customerLogin']);
 // Display a listing of the Admins.
 Route::get('/admins', [AdminController::class, 'getAdminsAndRelatedTables']);
 // Display the specified Admin.
@@ -72,50 +70,33 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Remove the specified AdminUserRole from storage.
     Route::delete('/adminuserroles/{id}', [AdminUserRoleController::class, 'deleteAdminUserRole']);
 
-    //Customers's Routes
+    // Cooperatives Routes
 
-    // Post a newly created Customer in storage.
-    Route::post('/registercustomer', [CustomerController::class, 'createCustomer']);
-    // Display a listing of the Customers.
-    Route::get('/customers', [CustomerController::class, 'getCustomersAndRelatedTables']);
-    // Display the specified Customer.
-    Route::get('/customers/{id}', [CustomerController::class, 'getCustomer']);
-    // Update the specified Customer in storage.
-    Route::patch('/customers/{id}', [CustomerController::class, 'updateCustomer'])->middleware('auth', 'check_user_ownership');
-    // Remove the specified Admin from storage.
-    Route::delete('/customers/{id}', [CustomerController::class, 'deleteCustomer']);
-    // Search the specified Customer from storage by name.
-    Route::get('/customers/search/{name}', [CustomerController::class, 'searchCustomerByName']);
-    // Admin logout and token destroy
-    Route::post('/logoutcustomer', [CustomerController::class, 'logoutCustomer']);
+    // Display a listing of the cooperatives.
+    Route::get('/cooperatives', [CoopController::class, 'getAllCooperatives']);
+    // Store a newly created cooperative in storage.
+    Route::post('/cooperatives', [CoopController::class, 'createCooperative']);
+    //Display the specified cooperative.
+    Route::get('/cooperatives/{id}', [CoopController::class, 'CooperativeById']);
+    // Update the specified cooperative in storage.
+    Route::put('/cooperatives/{id}', [CoopController::class, 'updateCooperative']);
+    // Remove the specified cooperative from storage.
+    Route::delete('/cooperatives/{id}', [CoopController::class, 'destroyCooperative']);
 
+    // Cooperative Staff's Routes
 
-    //CustomerRole's Routes
+    // Display a listing of the Cooperative Staffs.
+    Route::get('/coopstaffs', [CoopStaffController::class, 'getAllCoopStaff']);
+    // Store a newly created Cooperative Staff in storage.
+    Route::post('/coopstaffs', [CoopStaffController::class, 'createCoopStaff']);
+    // Display the specified Cooperative Staff.
+    Route::get('/coopstaffs/{id}', [CoopStaffController::class, 'CoopStaffById']);
+    // Update the specified Cooperative Staff in storage.
+    Route::put('/coopstaffs/{id}', [CoopStaffController::class, 'updateCoopStaff']);
+    // Remove the specified Cooperative Staff from storage.
+    Route::delete('/coopstaffs/{id}', [CoopStaffController::class, 'destroyCoopStaff']);
 
-    // Display a listing of the CustomerRoles.
-    Route::get('/customerroles', [CustomerRoleController::class, 'getAllCustomerRoles']);
-    // Post a newly created CustomerRole in storage.
-    Route::post('/customerroles', [CustomerRoleController::class, 'createCustomerRole']);
-    // Display the specified CustomerRole.
-    Route::get('/customerroles/{id}', [CustomerRoleController::class, 'getCustomerRole']);
-    // Update the specified CustomerRole in storage.
-    Route::patch('/customerroles/{id}', [CustomerRoleController::class, 'updateCustomerRole']);
-    // Remove the specified CustomerRole from storage.
-    Route::delete('/customerroles/{id}', [CustomerRoleController::class, 'deleteCustomerRole']);
-    // Search the specified CustomerRole from storage by name.
-    Route::get('/customerroles/search/{name}', [CustomerRoleController::class, 'searchCustomerRoleByName']);
-
-
-    //CustomerUserRole's Routes
-
-    // Display a listing of the CustomerUserRole.
-    Route::get('/customeruserroles', [CustomerUserRoleController::class, 'getAllCustomerUserRoles']);
-    // Post a newly created CustomerUserRole in storage.
-    Route::post('/customeruserroles', [CustomerUserRoleController::class, 'createCustomerUserRole']);
-    // Update the specified CustomerUserRole in storage.
-    Route::patch('/customeruserroles/{id}', [CustomerUserRoleController::class, 'updateCustomerUserRole']);
-    // Remove the specified CustomerUserRole from storage.
-    Route::delete('/customeruserroles/{id}', [CustomerUserRoleController::class, 'deleteCustomerUserRole']);
+    
 });
 
 
