@@ -1,17 +1,11 @@
 <?php
 
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-namespace App\Models;
-
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
-class Cooperative extends Model
+class Farmer extends Model
 {
     use HasFactory;
 
@@ -20,7 +14,7 @@ class Cooperative extends Model
      *
      * @var string
      */
-    protected $table = 'cooperatives';
+    protected $table = 'farmers';
 
     /**
      * The attributes that are mass assignable.
@@ -28,12 +22,16 @@ class Cooperative extends Model
      * @var array
      */
     protected $fillable = [
+        'cooperatives_id',
         'name',
-        'founded',
+        'surname',
+        'department',
+        'dateOfBirth',
+        'placeOfBirth',
         'address',
-        'field',
+        'phoneNumber',
+        'identityNumber',
         'status',
-        'licenseNo',
         'email_verified_at',
     ];
 
@@ -56,13 +54,11 @@ class Cooperative extends Model
         'remember_token',
     ];
 
-
-    public function cooperative_staffs()
+    /**
+     * Get the cooperative associated with the farmer.
+     */
+    public function cooperative()
     {
-        return $this->hasMany(CooperativeStaff::class, 'cooperatives_id');
-    }
-    public function farmers()
-    {
-        return $this->hasMany(Farmer::class, 'cooperatives_id');
+        return $this->belongsTo(Cooperative::class, 'cooperatives_id');
     }
 }

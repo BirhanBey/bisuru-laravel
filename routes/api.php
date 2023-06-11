@@ -5,7 +5,7 @@ use App\Http\Controllers\AdminRoleController;
 use App\Http\Controllers\AdminUserRoleController;
 use App\Http\Controllers\CoopController;
 use App\Http\Controllers\CoopStaffController;
-use App\Http\Controllers\CustomerUserRoleController;
+use App\Http\Controllers\FarmerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -96,7 +96,18 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Remove the specified Cooperative Staff from storage.
     Route::delete('/coopstaffs/{id}', [CoopStaffController::class, 'destroyCoopStaff']);
 
-    
+    // Farmer's Routes
+
+    // Display a listing of the Farmer.
+    Route::get('/farmers', [FarmerController::class, 'getAllFarmer']);
+    // Store a newly created Farmer in storage.
+    Route::post('/farmers', [FarmerController::class, 'createFarmer']);
+    // Display the specified Farmer.
+    Route::get('/farmers/{id}', [FarmerController::class, 'FarmerById']);
+    // Update the specified Farmer in storage.
+    Route::put('/farmers/{id}', [FarmerController::class, 'updateFarmer']);
+    // Remove the specified Farmer from storage.
+    Route::delete('/farmers/{id}', [FarmerController::class, 'destroyFarmer']);
 });
 
 
