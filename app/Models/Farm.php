@@ -34,4 +34,8 @@ class Farm extends Model
     {
         return $this->hasMany(FarmStaff::class, 'farms_id');
     }
+    public function animals()
+{
+    return $this->hasMany(Animal::class, 'farms_id');
+}
 }

@@ -15,9 +15,7 @@ class CoopController extends Controller
      */
     public function getAllCooperatives()
     {
-        $cooperatives = Cooperative::with('cooperative_staffs')->get();
-        $cooperatives = $cooperatives->load('farmers.farms.farmstaff');
-
+        $cooperatives = Cooperative::with('cooperative_staffs', 'farmers.farms.farmstaff', 'farmers.farms.animals')->get();
     
         return response()->json($cooperatives);
     }

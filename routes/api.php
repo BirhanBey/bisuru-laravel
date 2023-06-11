@@ -8,6 +8,7 @@ use App\Http\Controllers\CoopStaffController;
 use App\Http\Controllers\FarmerController;
 use App\Http\Controllers\FarmController;
 use App\Http\Controllers\FarmStaffController;
+use App\Http\Controllers\AnimalController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -44,7 +45,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Remove the specified Admin from storage.
     Route::delete('/admins/{id}', [AdminController::class, 'deleteAdmin'])->middleware('auth', 'check_user_ownership');
 
-        //AdminRole's Routes
+    //AdminRole's Routes
 
     // Display a listing of the AdminRoles.
     Route::get('/adminroles', [AdminRoleController::class, 'getAllAdminRoles']);
@@ -61,7 +62,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Admin logout and token destroy
     Route::post('/logout', [AdminController::class, 'logout']);
 
-        //AdminUserRole's Routes
+    //AdminUserRole's Routes
 
     // Display a listing of the AdminUserRoles.
     Route::get('/adminuserroles', [AdminUserRoleController::class, 'getAllAdminUserRoles']);
@@ -72,7 +73,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Remove the specified AdminUserRole from storage.
     Route::delete('/adminuserroles/{id}', [AdminUserRoleController::class, 'deleteAdminUserRole']);
 
-        // Cooperatives Routes
+    // Cooperatives Routes
 
     // Display a listing of the cooperatives.
     Route::get('/cooperatives', [CoopController::class, 'getAllCooperatives']);
@@ -85,7 +86,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Remove the specified cooperative from storage.
     Route::delete('/cooperatives/{id}', [CoopController::class, 'destroyCooperative']);
 
-        // Cooperative Staff's Routes
+    // Cooperative Staff's Routes
 
     // Display a listing of the Cooperative Staffs.
     Route::get('/coopstaffs', [CoopStaffController::class, 'getAllCoopStaff']);
@@ -98,7 +99,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Remove the specified Cooperative Staff from storage.
     Route::delete('/coopstaffs/{id}', [CoopStaffController::class, 'destroyCoopStaff']);
 
-        // Farmer's Routes
+    // Farmer's Routes
 
     // Display a listing of the Farmer.
     Route::get('/farmers', [FarmerController::class, 'getAllFarmer']);
@@ -111,7 +112,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Remove the specified Farmer from storage.
     Route::delete('/farmers/{id}', [FarmerController::class, 'destroyFarmer']);
 
-        // Farm's Routes
+    // Farm's Routes
 
     // Display a listing of the Farm.
     Route::get('/farms', [FarmController::class, 'getAllFarm']);
@@ -124,7 +125,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Remove the specified Farm from storage.
     Route::delete('/farms/{id}', [FarmController::class, 'destroyFarm']);
 
-        // Farm Staff's Routes
+    // Farm Staff's Routes
 
     // Display a listing of the FarmStaff.
     Route::get('/farmstaff', [FarmStaffController::class, 'getAllFarmStaff']);
@@ -136,6 +137,19 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::put('/farmstaff/{id}', [FarmStaffController::class, 'updateFarmStaff']);
     // Remove the specified FarmStaff from storage.
     Route::delete('/farmstaff/{id}', [FarmStaffController::class, 'destroyFarmStaff']);
+
+    // Animal's Routes
+
+    // Display a listing of the Animal.
+    Route::get('/animals', [AnimalController::class, 'getAllAnimals']);
+    // Store a newly created Animal in storage.
+    Route::post('/animals', [AnimalController::class, 'createAnimal']);
+    // Display the specified Animal.
+    Route::get('/animals/{id}', [AnimalController::class, 'AnimalById']);
+    // Update the specified Animal in storage.
+    Route::put('/animals/{id}', [AnimalController::class, 'updateAnimal']);
+    // Remove the specified Animal from storage.
+    Route::delete('/animals/{id}', [AnimalController::class, 'destroyAnimal']);
 });
 
 
