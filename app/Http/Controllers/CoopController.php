@@ -41,7 +41,7 @@ class CoopController extends Controller
      */
     public function CooperativeById($id)
     {
-        $cooperative = Cooperative::findOrFail($id);
+        $cooperative = Cooperative::with('cooperative_staffs', 'farmers.farms.farmstaff', 'farmers.farms.animals')->findOrFail($id);
 
         return response()->json($cooperative);
     }

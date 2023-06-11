@@ -16,8 +16,7 @@ class FarmController extends Controller
     public function getAllFarm()
     {
 
-        $farms = Farm::with('farmstaff')->get();
-        $farms = $farms->load('animals');
+        $farms = Farm::with('farmstaff', 'animals')->get();
 
         return response()->json($farms);
     }
@@ -43,7 +42,7 @@ class FarmController extends Controller
      */
     public function FarmById($id)
     {
-        $farm = Farm::findOrFail($id);
+        $farm = Farm::with('farmstaff', 'animals')->findOrFail($id);
 
         return response()->json($farm);
     }
