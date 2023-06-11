@@ -61,4 +61,8 @@ class Farmer extends Model
     {
         return $this->belongsTo(Cooperative::class, 'cooperatives_id');
     }
+    public function farms()
+    {
+        return $this->hasMany(Farm::class, 'farmers_id');
+    }
 }

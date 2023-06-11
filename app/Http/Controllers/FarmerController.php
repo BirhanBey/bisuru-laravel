@@ -14,7 +14,7 @@ class FarmerController extends Controller
      */
     public function getAllFarmer()
     {
-        $farmers = Farmer::all();
+        $farmers = Farmer::with('farms')->get();
 
         return response()->json($farmers);
     }

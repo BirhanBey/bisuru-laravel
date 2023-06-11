@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cooperative;
+use App\Models\Farmer;
 use Illuminate\Http\Request;
 
 class CoopController extends Controller
@@ -15,7 +16,8 @@ class CoopController extends Controller
     public function getAllCooperatives()
     {
         $cooperatives = Cooperative::with('cooperative_staffs')->get();
-        $cooperatives = $cooperatives->load('farmers');
+        $cooperatives = $cooperatives->load('farmers.farms');
+
     
         return response()->json($cooperatives);
     }
