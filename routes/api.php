@@ -127,15 +127,15 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         // Farm Staff's Routes
 
     // Display a listing of the FarmStaff.
-    Route::get('/farmstaffs', [FarmStaffController::class, 'getAllFarmStaff']);
+    Route::get('/farmstaff', [FarmStaffController::class, 'getAllFarmStaff']);
     // Store a newly created FarmStaff in storage.
-    Route::post('/farmstaffs', [FarmStaffController::class, 'createFarmStaff']);
+    Route::post('/farmstaff', [FarmStaffController::class, 'createFarmStaff']);
     // Display the specified FarmStaff.
-    Route::get('/farmstaffs/{id}', [FarmStaffController::class, 'FarmStaffById']);
+    Route::get('/farmstaff/{id}', [FarmStaffController::class, 'FarmStaffById']);
     // Update the specified FarmStaff in storage.
-    Route::put('/farmstaffs/{id}', [FarmStaffController::class, 'updateFarmStaff']);
+    Route::put('/farmstaff/{id}', [FarmStaffController::class, 'updateFarmStaff']);
     // Remove the specified FarmStaff from storage.
-    Route::delete('/farmstaffs/{id}', [FarmStaffController::class, 'destroyFarmStaff']);
+    Route::delete('/farmstaff/{id}', [FarmStaffController::class, 'destroyFarmStaff']);
 });
 
 

@@ -28,6 +28,10 @@ class Farm extends Model
 
     public function farmer()
     {
-        return $this->belongsTo(Farmer::class, 'farmers_id');
+        return $this->belongsTo(Farmer::class, 'farms_id');
+    }
+    public function farmstaff()
+    {
+        return $this->hasMany(FarmStaff::class, 'farms_id');
     }
 }
