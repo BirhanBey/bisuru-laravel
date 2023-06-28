@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Farm;
+use App\Models\Cooperative;
 
 
 use Illuminate\Http\Request;
@@ -17,6 +18,19 @@ class FarmController extends Controller
     {
 
         $farms = Farm::with('farmstaff', 'animals')->get();
+
+        return response()->json($farms);
+    }
+
+    /**
+     * Display a listing of the farms by CoopId.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getFarmsByCooperative($cooperativeId)
+    {
+        $cooperative = Cooperative::findOrFail($cooperativeId);
+        $farms = $cooperative->farmers()->with('farms')->get();
 
         return response()->json($farms);
     }

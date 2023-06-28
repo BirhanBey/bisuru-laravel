@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class CoopController extends Controller
 {
-     /**
+    /**
      * Display a listing of the cooperatives.
      *
      * @return \Illuminate\Http\Response
@@ -16,8 +16,38 @@ class CoopController extends Controller
     public function getAllCooperatives()
     {
         $cooperatives = Cooperative::with('cooperative_staffs', 'farmers.farms.farmstaff', 'farmers.farms.animals')->get();
-    
+
         return response()->json($cooperatives);
+    }
+
+    /**
+     * Display CoopStaff list of a Cooperative
+     */
+    public function getCoopStaff($cooperativeId)
+    {
+        $cooperative = Cooperative::with('cooperative_staffs')
+            ->find($cooperativeId);
+
+        if (!$cooperative) {
+            return response()->json(['error' => 'Cooperative not found'], 404);
+        }
+
+        return response()->json($cooperative);
+    }
+
+    /**
+     * Display farmers list of a Cooperative
+     */
+    public function getFarmersByCoopId($cooperativeId)
+    {
+        $cooperative = Cooperative::with('farmers')
+            ->find($cooperativeId);
+
+        if (!$cooperative) {
+            return response()->json(['error' => 'farmers not found'], 404);
+        }
+
+        return response()->json($cooperative);
     }
 
     /**

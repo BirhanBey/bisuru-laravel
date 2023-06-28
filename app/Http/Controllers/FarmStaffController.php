@@ -40,6 +40,7 @@ class FarmStaffController extends Controller
      */
     public function FarmStaffById($id)
     {
+
         $farmStaff = FarmStaff::find($id);
 
         if (!$farmStaff) {

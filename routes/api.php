@@ -41,9 +41,9 @@ Route::get('/admins/search/{name}', [AdminController::class, 'searchAdminByName'
 // protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
     // Update the specified Admin in storage.
-    Route::patch('/admins/{id}', [AdminController::class, 'updateAdmin'])->middleware('auth', 'check_user_ownership');
+    Route::patch('/admins/{id}', [AdminController::class, 'updateAdmin']);
     // Remove the specified Admin from storage.
-    Route::delete('/admins/{id}', [AdminController::class, 'deleteAdmin'])->middleware('auth', 'check_user_ownership');
+    Route::delete('/admins/{id}', [AdminController::class, 'deleteAdmin']);
 
     //AdminRole's Routes
 
@@ -52,11 +52,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Post a newly created AdminRole in storage.
     Route::post('/adminroles', [AdminRoleController::class, 'createAdminRole']);
     // Display the specified AdminRole.
-    Route::get('/adminroles/{id}', [AdminRoleController::class, 'getAdminRole'])->middleware('auth', 'check_user_ownership');
+    Route::get('/adminroles/{id}', [AdminRoleController::class, 'getAdminRole']);
     // Update the specified AdminRole in storage.
-    Route::patch('/adminroles/{id}', [AdminRoleController::class, 'updateAdminRole'])->middleware('auth', 'check_user_ownership');
+    Route::patch('/adminroles/{id}', [AdminRoleController::class, 'updateAdminRole']);
     // Remove the specified AdminRole from storage.
-    Route::delete('/adminroles/{id}', [AdminRoleController::class, 'deleteAdminRole'])->middleware('auth', 'check_user_ownership');
+    Route::delete('/adminroles/{id}', [AdminRoleController::class, 'deleteAdminRole']);
     // Search the specified AdminRole from storage by name.
     Route::get('/adminroles/search/{name}', [AdminRoleController::class, 'searchAdminRoleByName']);
     // Admin logout and token destroy
@@ -90,6 +90,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // Display a listing of the Cooperative Staffs.
     Route::get('/coopstaffs', [CoopStaffController::class, 'getAllCoopStaff']);
+    // Display CoopStaff list of a Cooperative
+    Route::get('/cooperative/{id}/staff', [CoopController::class, 'getCoopStaff']);
     // Store a newly created Cooperative Staff in storage.
     Route::post('/coopstaffs', [CoopStaffController::class, 'createCoopStaff']);
     // Display the specified Cooperative Staff.
@@ -103,6 +105,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // Display a listing of the Farmer.
     Route::get('/farmers', [FarmerController::class, 'getAllFarmer']);
+    // Display a listing of the farms by CoopId.
+    Route::get('/cooperative/{cooperativeId}/farms', [FarmController::class, 'getFarmsByCooperative']);
+    // Display farmers list of a Cooperative
+    Route::get('/cooperative/{id}/farmers', [FarmController::class, 'getFarmersByCoopId']);
     // Store a newly created Farmer in storage.
     Route::post('/farmers', [FarmerController::class, 'createFarmer']);
     // Display the specified Farmer.
